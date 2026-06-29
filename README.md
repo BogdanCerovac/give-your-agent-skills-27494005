@@ -1,5 +1,20 @@
 # Give Your AI Agent Skills
 
+---
+
+Comment from Bogdan: Just a quick evolution test - please check folders in this order:
+
+1. `before-skills` (just a prompt to an LLM)
+2. `after-skills` (skills installed, same prompt)
+3. `after-skills-explicit` (adding accessibility as requirement)
+4. `after-skills-explicit-with-skills` (calling skills in prompt)
+
+You can see the evolution if you compare the `index.html` in different folders. Not perfect, but better than without skills.
+
+Which calls for a rethorical question - why don't LLMs just make code as accessible as possible by default?
+
+---
+
 This is the repository for the LinkedIn Learning course `Give Your AI Agent Skills`. The full course is available from [LinkedIn Learning][lil-course-url].
 
 ![AI Agents illustration - cog and robot like illustration with npx skills list project skills and frontend-design agents text][lil-thumbnail-url]
