@@ -1,0 +1,1 @@
+/modern-web-guidance accessibility in the after-skills-explicit-with-skills folder create a simple html form that collects name surname sex email phone address and tshirt size. it saves the data to a cookie for now. make sure it is accessible

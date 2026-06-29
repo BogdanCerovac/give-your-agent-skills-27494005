@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+
+        main {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #222;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .required {
+            color: #d32f2f;
+            aria-label: "required";
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: 3px solid #2196F3;
+            outline-offset: 2px;
+            border-color: #2196F3;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .radio-group label,
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0;
+            margin-right: 10px;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            cursor: pointer;
+            accent-color: #2196F3;
+        }
+
+        input[type="radio"]:focus,
+        input[type="checkbox"]:focus {
+            outline: 2px solid #2196F3;
+            outline-offset: 2px;
+        }
+
+        button {
+            background-color: #2196F3;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #1976D2;
+        }
+
+        button:focus {
+            outline: 3px solid #FFF;
+            outline-offset: 2px;
+            background-color: #1565C0;
+        }
+
+        button:active {
+            background-color: #1565C0;
+        }
+
+        .button-group {
+            margin-top: 30px;
+        }
+
+        button[type="reset"] {
+            background-color: #757575;
+        }
+
+        button[type="reset"]:hover {
+            background-color: #616161;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        @media (max-width: 600px) {
+            main {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .radio-group,
+            .checkbox-group {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>User Registration</h1>
+        
+        <form id="registrationForm" aria-label="User registration form">
+            <!-- Name -->
+            <div class="form-group">
+                <label for="firstName">
+                    First Name <span class="required">*</span>
+                </label>
+                <input 
+                    type="text" 
+                    id="firstName" 
+                    name="firstName" 
+                    required 
+                    aria-required="true"
+                    aria-describedby="firstNameHelp"
+                />
+                <span id="firstNameHelp" class="sr-only">Enter your first name</span>
+            </div>
+
+            <!-- Surname -->
+            <div class="form-group">
+                <label for="surname">
+                    Surname <span class="required">*</span>
+                </label>
+                <input 
+                    type="text" 
+                    id="surname" 
+                    name="surname" 
+                    required 
+                    aria-required="true"
+                    aria-describedby="surnameHelp"
+                />
+                <span id="surnameHelp" class="sr-only">Enter your surname</span>
+            </div>
+
+            <!-- Sex/Gender -->
+            <div class="form-group">
+                <fieldset>
+                    <legend>
+                        Gender <span class="required">*</span>
+                    </legend>
+                    <div class="radio-group">
+                        <label>
+                            <input 
+                                type="radio" 
+                                name="gender" 
+                                value="male" 
+                                required 
+                                aria-required="true"
+                            />
+                            Male
+                        </label>
+                        <label>
+                            <input 
+                                type="radio" 
+                                name="gender" 
+                                value="female" 
+                                required 
+                                aria-required="true"
+                            />
+                            Female
+                        </label>
+                        <label>
+                            <input 
+                                type="radio" 
+                                name="gender" 
+                                value="other" 
+                                required 
+                                aria-required="true"
+                            />
+                            Other
+                        </label>
+                        <label>
+                            <input 
+                                type="radio" 
+                                name="gender" 
+                                value="prefer-not-to-say" 
+                                required 
+                                aria-required="true"
+                            />
+                            Prefer not to say
+                        </label>
+                    </div>
+                </fieldset>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">
+                    Email <span class="required">*</span>
+                </label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    required 
+                    aria-required="true"
+                    aria-describedby="emailHelp"
+                />
+                <span id="emailHelp" class="sr-only">Enter a valid email address</span>
+            </div>
+
+            <!-- Phone -->
+            <div class="form-group">
+                <label for="phone">
+                    Phone <span class="required">*</span>
+                </label>
+                <input 
+                    type="tel" 
+                    id="phone" 
+                    name="phone" 
+                    pattern="[0-9\+\-\(\)\s]+" 
+                    required 
+                    aria-required="true"
+                    aria-describedby="phoneHelp"
+                />
+                <span id="phoneHelp" class="sr-only">Enter your phone number</span>
+            </div>
+
+            <!-- Address -->
+            <div class="form-group">
+                <label for="address">
+                    Address <span class="required">*</span>
+                </label>
+                <textarea 
+                    id="address" 
+                    name="address" 
+                    required 
+                    aria-required="true"
+                    aria-describedby="addressHelp"
+                    placeholder="Street address, city, postal code"
+                ></textarea>
+                <span id="addressHelp" class="sr-only">Enter your complete address</span>
+            </div>
+
+            <!-- T-Shirt Size -->
+            <div class="form-group">
+                <label for="tshirtSize">
+                    T-Shirt Size <span class="required">*</span>
+                </label>
+                <select 
+                    id="tshirtSize" 
+                    name="tshirtSize" 
+                    required 
+                    aria-required="true"
+                    aria-describedby="tshirtHelp"
+                >
+                    <option value="">-- Select Size --</option>
+                    <option value="xs">Extra Small (XS)</option>
+                    <option value="s">Small (S)</option>
+                    <option value="m">Medium (M)</option>
+                    <option value="l">Large (L)</option>
+                    <option value="xl">Extra Large (XL)</option>
+                    <option value="xxl">2X Large (XXL)</option>
+                    <option value="xxxl">3X Large (XXXL)</option>
+                </select>
+                <span id="tshirtHelp" class="sr-only">Select your t-shirt size</span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-group">
+                <button type="submit">Save Data</button>
+                <button type="reset">Clear Form</button>
+            </div>
+
+            <!-- Message -->
+            <div id="message" class="message" role="status" aria-live="polite"></div>
+        </form>
+    </main>
+
+    <script>
+        const form = document.getElementById('registrationForm');
+        const messageDiv = document.getElementById('message');
+
+        // Load data from cookies on page load
+        function loadDataFromCookies() {
+            const fields = ['firstName', 'surname', 'email', 'phone', 'address', 'tshirtSize'];
+            
+            fields.forEach(field => {
+                const value = getCookie(field);
+                if (value) {
+                    const element = document.getElementById(field);
+                    if (element) {
+                        element.value = decodeURIComponent(value);
+                    }
+                }
+            });
+
+            // Load gender radio button
+            const gender = getCookie('gender');
+            if (gender) {
+                const genderRadio = document.querySelector(`input[name="gender"][value="${decodeURIComponent(gender)}"]`);
+                if (genderRadio) {
+                    genderRadio.checked = true;
+                }
+            }
+        }
+
+        // Get cookie value
+        function getCookie(name) {
+            const nameEQ = name + '=';
+            const cookies = document.cookie.split(';');
+            
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.indexOf(nameEQ) === 0) {
+                    return cookie.substring(nameEQ.length);
+                }
+            }
+            return null;
+        }
+
+        // Set cookie with 30-day expiration
+        function setCookie(name, value, days = 30) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = 'expires=' + date.toUTCString();
+            document.cookie = `${name}=${encodeURIComponent(value)};${expires};path=/`;
+        }
+
+        // Handle form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            try {
+                // Collect form data
+                const formData = new FormData(form);
+                
+                // Save each field to cookie
+                formData.forEach((value, key) => {
+                    setCookie(key, value);
+                });
+
+                // Show success message
+                messageDiv.className = 'message success';
+                messageDiv.textContent = '✓ Data saved successfully to cookies!';
+                messageDiv.style.display = 'block';
+
+                // Clear message after 5 seconds
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 5000);
+
+                console.log('Form data saved to cookies:', Object.fromEntries(formData));
+            } catch (error) {
+                messageDiv.className = 'message error';
+                messageDiv.textContent = '✗ Error saving data. Please try again.';
+                messageDiv.style.display = 'block';
+                console.error('Error:', error);
+            }
+        });
+
+        // Load data when page loads
+        window.addEventListener('DOMContentLoaded', loadDataFromCookies);
+    </script>
+</body>
+</html>

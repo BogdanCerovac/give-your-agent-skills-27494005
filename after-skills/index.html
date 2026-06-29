@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Details Form - after</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 480px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #f5f7fb;
+      }
+
+      form {
+        background: #fff;
+        padding: 24px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        margin-top: 4px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      button {
+        margin-top: 12px;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 4px;
+        background: #2563eb;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .message {
+        margin-top: 12px;
+        color: #166534;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="customerForm">
+      <label>
+        Name
+        <input type="text" name="name" required />
+      </label>
+
+      <label>
+        Surname
+        <input type="text" name="surname" required />
+      </label>
+
+      <label>
+        Sex
+        <select name="sex" required>
+          <option value="">Select</option>
+          <option value="female">Female</option>
+          <option value="male">Male</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label>
+        Email
+        <input type="email" name="email" required />
+      </label>
+
+      <label>
+        Phone
+        <input type="tel" name="phone" required />
+      </label>
+
+      <label>
+        Address
+        <textarea name="address" rows="3" required></textarea>
+      </label>
+
+      <label>
+        T-shirt Size
+        <select name="tshirtSize" required>
+          <option value="">Select</option>
+          <option value="XS">XS</option>
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+          <option value="XXL">XXL</option>
+        </select>
+      </label>
+
+      <button type="submit">Save Data</button>
+    </form>
+
+    <p class="message" id="message"></p>
+
+    <script>
+      const form = document.getElementById('customerForm');
+      const message = document.getElementById('message');
+      const cookieName = 'customerFormData';
+
+      function setCookie(name, value, days = 30) {
+        const expires = new Date(Date.now() + days * 864e5).toUTCString();
+        document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+      }
+
+      function getCookie(name) {
+        const cookies = document.cookie.split('; ');
+        const match = cookies.find((item) => item.startsWith(`${name}=`));
+        return match ? decodeURIComponent(match.split('=').slice(1).join('=')) : null;
+      }
+
+      function populateForm() {
+        const saved = getCookie(cookieName);
+        if (!saved) return;
+
+        try {
+          const values = JSON.parse(saved);
+          Object.entries(values).forEach(([key, value]) => {
+            const field = form.elements.namedItem(key);
+            if (field) {
+              field.value = value;
+            }
+          });
+        } catch (error) {
+          console.error('Could not read saved form data', error);
+        }
+      }
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const values = Object.fromEntries(formData.entries());
+        const json = JSON.stringify(values);
+
+        setCookie(cookieName, json);
+        message.textContent = 'Your details were saved to a cookie.';
+      });
+
+      populateForm();
+    </script>
+  </body>
+</html>
