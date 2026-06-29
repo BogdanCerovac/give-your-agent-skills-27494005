@@ -11,7 +11,7 @@ Comment from Bogdan: Just a quick evolution test - please check folders in this 
 
 You can see the evolution if you compare the `index.html` in different folders. Not perfect, but better than without skills.
 
-Which calls for a rethorical question - why don't LLMs just make code as accessible as possible by default?
+Which calls for a rhetorical question - why don't LLMs just make code as accessible as possible by default?
 
 ---
 
