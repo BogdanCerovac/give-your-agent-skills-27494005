@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Signup — Accessible Form</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; font-size:16px; }
+    body { padding:24px; color:#111; background:#fff; }
+    label { display:block; margin-bottom:6px; font-weight:600 }
+    .field { margin-bottom:16px; }
+    input, select, textarea { width:100%; padding:8px; border:1px solid #888; border-radius:4px; font-size:1rem }
+    fieldset { border:1px solid #bbb; padding:12px; border-radius:6px }
+    legend { font-weight:700 }
+    button { padding:10px 14px; font-size:1rem; border-radius:6px }
+    .row { display:flex; gap:12px }
+    .row > * { flex:1 }
+    #status { margin-top:12px; padding:10px; border-radius:6px; background:#eef; }
+    :focus { outline:3px solid Highlight; outline-offset:3px }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Event Signup</h1>
+    <p id="form-desc">This accessible form collects contact details and t-shirt size. All fields marked with * are required.</p>
+
+    <form id="signup" aria-describedby="form-desc">
+      <div class="row">
+        <div class="field">
+          <label for="first">First name *</label>
+          <input id="first" name="first" type="text" autocomplete="given-name" required />
+        </div>
+        <div class="field">
+          <label for="last">Last name *</label>
+          <input id="last" name="last" type="text" autocomplete="family-name" required />
+        </div>
+      </div>
+
+      <fieldset class="field">
+        <legend>Sex</legend>
+        <div>
+          <input type="radio" id="sex-m" name="sex" value="male">
+          <label for="sex-m">Male</label>
+        </div>
+        <div>
+          <input type="radio" id="sex-f" name="sex" value="female">
+          <label for="sex-f">Female</label>
+        </div>
+        <div>
+          <input type="radio" id="sex-o" name="sex" value="other">
+          <label for="sex-o">Other</label>
+        </div>
+        <div>
+          <input type="radio" id="sex-n" name="sex" value="prefer-not">
+          <label for="sex-n">Prefer not to say</label>
+        </div>
+      </fieldset>
+
+      <div class="field">
+        <label for="email">Email *</label>
+        <input id="email" name="email" type="email" autocomplete="email" required />
+      </div>
+
+      <div class="field">
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+1 555 555 5555" />
+      </div>
+
+      <div class="field">
+        <label for="address">Address</label>
+        <textarea id="address" name="address" rows="3" autocomplete="street-address"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="tshirt">T-shirt size *</label>
+        <select id="tshirt" name="tshirt" required aria-required="true">
+          <option value="">Choose a size</option>
+          <option value="XS">XS</option>
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+          <option value="XXL">XXL</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div>
+          <button type="submit">Save</button>
+        </div>
+        <div>
+          <button type="reset">Reset</button>
+        </div>
+      </div>
+    </form>
+
+    <div id="status" role="status" aria-live="polite" tabindex="-1"></div>
+  </main>
+
+  <script>
+    const COOKIE_NAME = 'signup_data';
+
+    function setCookie(name, value, days = 365) {
+      const expires = new Date(Date.now() + days*24*60*60*1000).toUTCString();
+      document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+    }
+
+    function getCookie(name) {
+      const pairs = document.cookie.split('; ').map(s => s.split('='));
+      for (const [k,v] of pairs) if (k === name) return decodeURIComponent(v || '');
+      return '';
+    }
+
+    function formToData(form) {
+      const fd = new FormData(form);
+      const obj = {};
+      for (const [k,v] of fd.entries()) obj[k] = v;
+      return obj;
+    }
+
+    function populateForm(form, data) {
+      if (!data) return;
+      Object.keys(data).forEach(k => {
+        const el = form.elements[k];
+        if (!el) return;
+        if (el.type === 'radio' || (el instanceof RadioNodeList)) {
+          if (el.length) {
+            for (const r of el) if (r.value === data[k]) r.checked = true;
+          } else if (el.type === 'radio') {
+            if (el.value === data[k]) el.checked = true;
+          }
+        } else {
+          el.value = data[k];
+        }
+      });
+    }
+
+    function saveData(obj) {
+      setCookie(COOKIE_NAME, JSON.stringify(obj));
+      announce('Saved — your information is stored in a cookie.');
+    }
+
+    function loadData() {
+      const raw = getCookie(COOKIE_NAME);
+      if (!raw) return null;
+      try {
+        return JSON.parse(raw);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function announce(message) {
+      const s = document.getElementById('status');
+      s.textContent = message;
+      s.focus();
+    }
+
+    document.getElementById('signup').addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!this.checkValidity()) {
+        announce('Please fix the highlighted fields and try again.');
+        return;
+      }
+      const data = formToData(this);
+      saveData(data);
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('signup');
+      const data = loadData();
+      if (data) populateForm(form, data);
+    });
+  </script>
+</body>
+</html>
