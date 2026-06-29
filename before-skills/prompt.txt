@@ -1,0 +1,1 @@
+in the before-skills folder create a simple html form that collects name surname sex email phone address and tshirt size. it saves the data to a cookie for now
